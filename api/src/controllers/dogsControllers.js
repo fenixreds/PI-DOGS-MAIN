@@ -1,5 +1,6 @@
 const axios=require("axios");
-const {Dog}=require("../db");
+const {Dog,Temperament}=require("../db");
+const {Op}=require("sequelize");
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
 const infoSelect=(array)=>{
@@ -15,33 +16,70 @@ const infoSelect=(array)=>{
 
         }
     })
-}
+};
+
+const convNumbers=(array)=>{
+    return array.map((item)=>{
+        return Number(item)
+    })
+};
+
+
 
 const getDogByName=async(name)=>{
+
+    const dogDB=await Dog.findAll({
+        where:{
+            name:{
+                [Op.iLike]:`%${name}%`,
+            }
+        }
+    });
 
     const infoApi=(await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}`)).data;
     const dogApi=infoSelect(infoApi);
 
-    return[...dogApi];
+    return[...dogDB,...dogApi];
 
 };
 
 const getAllDogs=async()=>{
 
+    const dogDB=await Dog.findAll();
+    
+
     const infoApi=(await axios.get(`https://api.thedogapi.com/v1/breeds`)).data;
     const dogApi=infoSelect(infoApi);
 
-    return[...dogApi];
+    return[...dogDB,...dogApi];
 
 };
 
 const getDogById=async(id)=>{
 
+    const dogDB=await Dog.findByPk(id,{
+        include:{
+            model:Temperament,
+            through:{
+                attributes:[],
+            }
+            
+        }
+    });
+
     const infoApi=(await axios.get(`https://api.thedogapi.com/v1/breeds`)).data;
     const dogFiltered=infoApi.filter((dog)=>dog.id===Number(id));
     const dogApi=infoSelect(dogFiltered);
+
+    if(dogDB){
+        return dogDB;
+    }else if(dogApi){
+        return dogApi;
+    }else{
+        return false;
+    }
        
-    return[...dogApi];
+    
 
 };
 
@@ -59,7 +97,12 @@ const createDogDB=async({reference_image_id,name,height,weight,life_span,tempera
     });
 
     if(created){
-        await newDog.addTemperament([1,2]);
+        
+        const tempsArray=temperamentId.split(",");
+        
+        const tempsId=convNumbers(tempsArray);
+        
+        await newDog.addTemperament(tempsId);
         
         return newDog;
     }else{
