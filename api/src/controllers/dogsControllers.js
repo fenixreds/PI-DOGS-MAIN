@@ -1,4 +1,5 @@
 const axios=require("axios");
+const {Dog}=require("../db");
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
 const infoSelect=(array)=>{
@@ -39,16 +40,36 @@ const getDogById=async(id)=>{
     const infoApi=(await axios.get(`https://api.thedogapi.com/v1/breeds`)).data;
     const dogFiltered=infoApi.filter((dog)=>dog.id===Number(id));
     const dogApi=infoSelect(dogFiltered);
-    
-
-
-    
+       
     return[...dogApi];
 
+};
+
+const createDogDB=async({reference_image_id,name,height,weight,life_span,temperamentId})=>{
+
+    const [newDog,created]=await Dog.findOrCreate({
+        where:{name:name},
+        defaults:{
+            reference_image_id:reference_image_id,
+            height:height,
+            weight:weight,
+            life_span:life_span,
+            
+        }
+    });
+
+    if(created){
+        await newDog.addTemperament([1,2]);
+        
+        return newDog;
+    }else{
+        return false;
+    }
 };
 
 module.exports={
     getDogByName,
     getAllDogs,
-    getDogById
+    getDogById,
+    createDogDB
 }

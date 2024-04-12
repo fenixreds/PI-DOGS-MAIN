@@ -1,5 +1,14 @@
 const axios=require("axios");
+const{Temperament}=require("../db");
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+
+const arrayObj=(array)=>{
+    return array.map((dog)=>{
+        return{
+            name:dog
+        }
+    })
+};
 
 const getAllTemperaments=async()=>{
 
@@ -15,7 +24,12 @@ const getAllTemperaments=async()=>{
     });
 
     const uniqueTemperaments=[...new Set(temperaments)];
-    const temperamentsApi=uniqueTemperaments.sort();
+    const sortTemperament=uniqueTemperaments.sort();
+
+    arrayObjTemperaments=arrayObj(sortTemperament);
+
+    const temperamentsApi=await Temperament.bulkCreate(arrayObjTemperaments);
+
 
     return[...temperamentsApi];
 }

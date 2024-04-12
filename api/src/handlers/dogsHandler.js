@@ -1,4 +1,4 @@
-const { getDogByName, getAllDogs, getDogById } = require("../controllers/dogsControllers");
+const { getDogByName, getAllDogs, getDogById, createDogDB } = require("../controllers/dogsControllers");
 
 const getDogsHandler=async(req,res)=>{
 
@@ -31,7 +31,26 @@ const getDetailHandler=async(req,res)=>{
     }
 }
 
+const createDogHandler=async(req,res)=>{
+
+    const{reference_image_id,name,height,weight,life_span,temperamentId}=req.body;
+
+    try {
+        const response=await createDogDB({reference_image_id,name,height,weight,life_span,temperamentId});
+        if(response===false){
+            res.status(400).json("Ya creo este perro en la base de datos");
+        }else{
+            res.status(200).json(response);
+        }
+        
+    } catch (error) {
+        res.status(400).json({error:error.message});
+    }
+
+}
+
 module.exports={
     getDogsHandler,
-    getDetailHandler
+    getDetailHandler,
+    createDogHandler
 };

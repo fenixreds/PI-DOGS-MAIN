@@ -1,9 +1,9 @@
 const server=require("./src/app");
-//const {conn}=require("./src/db");
+const {conn}=require("./src/db");
 
 const PORT=3001;
 
 server.listen(PORT,()=>{
-    //connect.sync({force:true});
+    conn.sync({force:false});
     console.log(`listening on port ${PORT}`);
 })
