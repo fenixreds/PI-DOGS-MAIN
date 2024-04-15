@@ -7,10 +7,14 @@ const getDogsHandler=async(req,res)=>{
     try {
         if(name){
             const dogByName=await getDogByName(name);
-            res.status(200).json(dogByName);
+            dogByName.length
+            ?res.status(200).json(dogByName)
+            :res.status(400).json("No existe esta raza");
         }else{
             const response=await getAllDogs();
-            res.status(200).json(response);
+            response.length
+            ?res.status(200).json(response)
+            :res.status(400).json("Hubo un error al obtener las razas");
         }
         
     } catch (error) {
@@ -24,7 +28,9 @@ const getDetailHandler=async(req,res)=>{
 
     try {
         const response=await getDogById(id);
-        res.status(200).json(response);
+        response.length
+        ?res.status(200).json(response)
+        :res.status(400).json("No existe una raza con el id indicado");
         
     } catch (error) {
         res.status(400).json({error:error.message});

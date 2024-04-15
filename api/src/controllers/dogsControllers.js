@@ -3,7 +3,7 @@ const {Dog,Temperament}=require("../db");
 const {Op}=require("sequelize");
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
-const infoSelect=(array)=>{
+const infoApiSelect=(array)=>{
     return array.map((dog)=>{
         return{
             id:dog.id,
@@ -18,12 +18,32 @@ const infoSelect=(array)=>{
     })
 };
 
+const infoDBSelect=(dog,dogtemps)=>{
+   
+        return[{
+            id:dog.id,
+            reference_image_id:dog.reference_image_id,
+            name:dog.name,
+            height:dog.height,
+            weight:dog.weight,
+            life_span:dog.life_span,
+            temperament:dogtemps
+
+        }]
+
+};
+
 const convNumbers=(array)=>{
     return array.map((item)=>{
         return Number(item)
     })
 };
 
+const tempsSelect=(array)=>{
+    return (array.Temperaments).map((objeto)=>{
+        return objeto.name
+    }).join(',')
+};
 
 
 const getDogByName=async(name)=>{
@@ -37,7 +57,7 @@ const getDogByName=async(name)=>{
     });
 
     const infoApi=(await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}`)).data;
-    const dogApi=infoSelect(infoApi);
+    const dogApi=infoApiSelect(infoApi);
 
     return[...dogDB,...dogApi];
 
@@ -49,7 +69,7 @@ const getAllDogs=async()=>{
     
 
     const infoApi=(await axios.get(`https://api.thedogapi.com/v1/breeds`)).data;
-    const dogApi=infoSelect(infoApi);
+    const dogApi=infoApiSelect(infoApi);
 
     return[...dogDB,...dogApi];
 
@@ -62,24 +82,23 @@ const getDogById=async(id)=>{
             model:Temperament,
             through:{
                 attributes:[],
-            }
-            
+            }            
         }
     });
-
     const infoApi=(await axios.get(`https://api.thedogapi.com/v1/breeds`)).data;
-    const dogFiltered=infoApi.filter((dog)=>dog.id===Number(id));
-    const dogApi=infoSelect(dogFiltered);
+    const dogFilterApi=infoApi.filter((dog)=>dog.id===Number(id));
 
     if(dogDB){
-        return dogDB;
-    }else if(dogApi){
+        const dogTemps=tempsSelect(dogDB);
+        const dogDBSelect=infoDBSelect(dogDB,dogTemps);
+        return dogDBSelect;
+        
+    }else if(dogFilterApi){
+        const dogApi=infoApiSelect(dogFilterApi);
         return dogApi;
     }else{
         return false;
-    }
-       
-    
+    }   
 
 };
 
