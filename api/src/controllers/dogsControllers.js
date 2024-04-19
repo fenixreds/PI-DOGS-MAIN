@@ -45,6 +45,11 @@ const tempsSelect=(array)=>{
     }).join(',')
 };
 
+const imageByRefId=async(reference_image_id)=>{
+
+    const imageLink=(await axios.get(`https://api.thedogapi.com/v1/images/${reference_image_id}`)).data; 
+};
+
 
 const getDogByName=async(name)=>{
 
