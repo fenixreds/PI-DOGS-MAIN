@@ -1,21 +1,21 @@
 import './card.styles.css';
+import {Link} from "react-router-dom";
 
 function Card({dog}){
 
-    const {reference_image_id,name,weight,temperament}=dog;
+    const {id,reference_image_id,name,weight,temperament}=dog;
 
-    //const linkImage="https://cdn2.thedogapi.com/images/"+reference_image_id+".jpg";
-    // console.log(name);
-    // console.log(reference_image_id);
-    // console.log(linkImage);
     return(
         <div className='card-container'>
 
+            
+            <Link to={`/detail/${id}`}>
             <img className='image-container' src={reference_image_id} alt=''/>
-            <p></p>
             <p>{name}</p>
-            <p>{weight}</p>
             <p>{temperament}</p>
+            <p>{weight}</p>
+
+            </Link>
 
         </div>
     )

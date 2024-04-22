@@ -57,9 +57,20 @@ const getDogByName=async(name)=>{
             name:{
                 [Op.iLike]:`%${name}%`,
             }
+        },
+        include:{
+            model:Temperament,
+            through:{
+                attributes:[],
+            },
+            
+
         }
+        
     });
+    console.log(infoDB);
     const dogDB=infoDBSelect(infoDB);
+    
 
     const infoApi=(await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}`)).data;
     const dogApi=infoApiSelect(infoApi);
@@ -70,7 +81,16 @@ const getDogByName=async(name)=>{
 
 const getAllDogs=async()=>{
 
-    const infoDB=await Dog.findAll();
+    const infoDB=await Dog.findAll({
+        include:{
+            model:Temperament,
+            through:{
+                attributes:[],
+            },
+            
+
+        }
+    });
     const dogDB=infoDBSelect(infoDB);
 
     const infoApi=(await axios.get(`https://api.thedogapi.com/v1/breeds`)).data;
@@ -94,13 +114,13 @@ const getDogById=async(id)=>{
     const dogFilterApi=infoApi.filter((dog)=>dog.id===Number(id));
 
     if(dogDB){
-        const dogDBArray=[dogDB]; 
+        const dogDBArray=[dogDB]; //se vuelve array para usar la function infoDBselect
         const dogDBSelect=infoDBSelect(dogDBArray);
-        return dogDBSelect;
+        return dogDBSelect[0];
         
     }else if(dogFilterApi){
         const dogApi=infoApiSelect(dogFilterApi);
-        return dogApi;
+        return dogApi[0];
     }else{
         return false;
     }   

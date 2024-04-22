@@ -8,7 +8,9 @@ function Cards({allDogs}){
     return(
         <div className="cards-list">
             {dogsList?.map(dog=>
-            <Card dog={dog}/>)}
+            <Card
+            key={dog.id} 
+            dog={dog}/>)}
             
             
         </div>

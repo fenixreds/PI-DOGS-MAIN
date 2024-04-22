@@ -28,7 +28,7 @@ const getDetailHandler=async(req,res)=>{
 
     try {
         const response=await getDogById(id);
-        response.length
+        response
         ?res.status(200).json(response)
         :res.status(400).json("No existe una raza con el id indicado");
         
