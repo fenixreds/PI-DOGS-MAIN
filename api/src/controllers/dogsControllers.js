@@ -7,7 +7,7 @@ const infoApiSelect=(array)=>{
     return array.map((dog)=>{
         return{
             id:dog.id,
-            reference_image_id:dog.reference_image_id,
+            reference_image_id:"https://cdn2.thedogapi.com/images/"+dog.reference_image_id+".jpg",
             name:dog.name,
             height:dog.height.metric,
             weight:dog.weight.metric,
@@ -18,19 +18,21 @@ const infoApiSelect=(array)=>{
     })
 };
 
-const infoDBSelect=(dog,dogtemps)=>{
+const infoDBSelect=(array)=>{
+    
+    return array.map((dog)=>{
    
-        return[{
+        return{
             id:dog.id,
             reference_image_id:dog.reference_image_id,
             name:dog.name,
             height:dog.height,
             weight:dog.weight,
             life_span:dog.life_span,
-            temperament:dogtemps
+            temperament:tempsSelect(dog)
 
-        }]
-
+        }
+    })
 };
 
 const convNumbers=(array)=>{
@@ -45,21 +47,19 @@ const tempsSelect=(array)=>{
     }).join(',')
 };
 
-const imageByRefId=async(reference_image_id)=>{
 
-    const imageLink=(await axios.get(`https://api.thedogapi.com/v1/images/${reference_image_id}`)).data; 
-};
 
 
 const getDogByName=async(name)=>{
 
-    const dogDB=await Dog.findAll({
+    const infoDB=await Dog.findAll({
         where:{
             name:{
                 [Op.iLike]:`%${name}%`,
             }
         }
     });
+    const dogDB=infoDBSelect(infoDB);
 
     const infoApi=(await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${name}`)).data;
     const dogApi=infoApiSelect(infoApi);
@@ -70,8 +70,8 @@ const getDogByName=async(name)=>{
 
 const getAllDogs=async()=>{
 
-    const dogDB=await Dog.findAll();
-    
+    const infoDB=await Dog.findAll();
+    const dogDB=infoDBSelect(infoDB);
 
     const infoApi=(await axios.get(`https://api.thedogapi.com/v1/breeds`)).data;
     const dogApi=infoApiSelect(infoApi);
@@ -94,8 +94,8 @@ const getDogById=async(id)=>{
     const dogFilterApi=infoApi.filter((dog)=>dog.id===Number(id));
 
     if(dogDB){
-        const dogTemps=tempsSelect(dogDB);
-        const dogDBSelect=infoDBSelect(dogDB,dogTemps);
+        const dogDBArray=[dogDB]; 
+        const dogDBSelect=infoDBSelect(dogDBArray);
         return dogDBSelect;
         
     }else if(dogFilterApi){
