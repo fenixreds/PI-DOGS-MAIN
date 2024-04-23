@@ -1,6 +1,6 @@
-import {GET_BY_NAME, GET_DOGS, GET_DETAIL} from "../actions";
+import {GET_BY_NAME, GET_DOGS, GET_DETAIL, GET_RENDER_DOGS} from "../actions";
 
-let initialState={allDogs:[],dogsCopy:[],dog:[]};
+let initialState={allDogs:[],dogsCopy:[],dog:[],renderDogs:[]};
 
 function rootReducer(state=initialState,action){
     switch(action.type){
@@ -22,6 +22,18 @@ function rootReducer(state=initialState,action){
                 ...state,
                 dog:action.payload
 
+            } 
+            
+        case GET_RENDER_DOGS:
+            const{valor1,valor2}=action.payload;
+            
+            const lastIndex=valor1 * valor2;
+            const firstIndex=lastIndex-valor2;
+            const records=state.allDogs.slice(firstIndex,lastIndex);
+            console.log(state.allDogs);
+            return{
+                ...state,
+                renderDogs:records
             }    
         default:
             return state    

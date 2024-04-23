@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getByName, getDogs} from '../../redux/actions';
+import {getByName, getDogs, getRenderDogs} from '../../redux/actions';
 
 import './home.styles.css';
 
@@ -12,13 +12,14 @@ function Home() {
 
   const dispatch=useDispatch();
   const allDogs=useSelector((state)=>state.allDogs);
+  const renderDogs=useSelector((state)=>state.renderDogs);
 
   //se crean los parametros para el paginado
   const [currentPage,setCurrentPage]=useState(1);
+
   const recordsPerPage=8;
-    const lastIndex=currentPage * recordsPerPage;
-    const firstIndex=lastIndex-recordsPerPage;
-    const records=allDogs.slice(firstIndex,lastIndex);
+  const npage =Math.ceil(allDogs.length/recordsPerPage);
+  
 
 
 
@@ -39,28 +40,42 @@ function Home() {
   //Funciones Pagination
   function prePage(e){
     e.preventDefault();
+    if(currentPage!==1){
+      setCurrentPage(currentPage-1);
+    }
+    
   }
 
   function changeCpage(e){
     e.preventDefault();
+    setCurrentPage(Number((e.target).textContent))
   }
 
   function nextPage(e){
     e.preventDefault();
+    if(currentPage!==npage){
+      setCurrentPage(currentPage+1);
+    }
   }
 
 
   useEffect(()=>{
-    dispatch(getDogs())//esto se ejecuta cuando inicia esta pagina home
-  },[dispatch])//????
+    dispatch(getDogs())
+    console.log("get dogs ok");//esto se ejecuta cuando inicia esta pagina home
+  },[]);
+
+  useEffect(()=>{
+    dispatch(getRenderDogs(currentPage,recordsPerPage))
+    console.log(renderDogs);
+  },[currentPage]);
 
 
   return (
     <div className='home' >
       <h1 className='home-title'>Razas de perros</h1>
       <Navbar handleChange={handleChange} handleSubmit={handleSubmit}/>
-      <Cards allDogs={allDogs}/>
-      <Pagination prePage={prePage} changeCpage={changeCpage} nextPage={nextPage}/>
+      <Cards renderDogs={renderDogs}/>
+      <Pagination prePage={prePage} changeCpage={changeCpage} nextPage={nextPage} recordsPerPage={recordsPerPage}/>
     </div>
   );
 }

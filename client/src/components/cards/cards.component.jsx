@@ -1,9 +1,9 @@
 import Card from "../card/card.component";
 import './cards.styles.css';
 
-function Cards({allDogs}){
+function Cards({renderDogs}){
 
-    const dogsList=allDogs;
+    const dogsList=renderDogs;
 
     return(
         <div className="cards-list">
