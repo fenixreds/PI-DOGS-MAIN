@@ -3,6 +3,7 @@ import axios from "axios";
 export const GET_DOGS="GET_DOGS"
 export const GET_BY_NAME="GET_BY_NAME"
 export const GET_DETAIL="GET_DETAIL"
+export const CLEAN_DETAIL="CLEAN_DETAIL"
 export const GET_RENDER_DOGS="GET_RENDER_DOGS"
 
 export function getDogs(){
@@ -35,6 +36,13 @@ export function getDetail(id){
             type:"GET_DETAIL",
             payload:response.data
         })
+    }
+}
+
+export function cleanDetail(){
+    return {
+        type:"CLEAN_DETAIL",
+        payload:{}
     }
 }
 

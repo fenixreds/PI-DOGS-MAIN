@@ -7,6 +7,7 @@ import './home.styles.css';
 import Cards from "../../components/cards/cards.component";
 import Navbar from "../../components/navbar/navbar.component";
 import Pagination from '../../components/pagination/pagination.component';
+import Filter from '../../components/filter/filter.component';
 
 function Home() {
 
@@ -44,7 +45,6 @@ function Home() {
     if(currentPage!==1){
       setCurrentPage(currentPage-1);
     }
-    
   }
 
   function changeCpage(e){
@@ -57,6 +57,11 @@ function Home() {
     if(currentPage!==npage){
       setCurrentPage(currentPage+1);
     }
+  }
+
+  //Funciones Filtrado
+  function handleFilter(e){
+    
   }
 
 
@@ -73,8 +78,10 @@ function Home() {
     <div className='home' >
       <h1 className='home-title'>Razas de perros</h1>
       <Navbar handleChange={handleChange} handleSubmit={handleSubmit}/>
+      <Filter handleFilter={handleFilter}/>
       <Cards renderDogs={renderDogs}/>
       <Pagination prePage={prePage} changeCpage={changeCpage} nextPage={nextPage} recordsPerPage={recordsPerPage}/>
+      
     </div>
   );
 }

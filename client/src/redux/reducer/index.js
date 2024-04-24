@@ -1,4 +1,4 @@
-import {GET_BY_NAME, GET_DOGS, GET_DETAIL, GET_RENDER_DOGS} from "../actions";
+import {GET_BY_NAME, GET_DOGS, GET_DETAIL, GET_RENDER_DOGS, CLEAN_DETAIL} from "../actions";
 
 let initialState={allDogs:[],dogsCopy:[],dog:[],renderDogs:[]};
 
@@ -23,6 +23,12 @@ function rootReducer(state=initialState,action){
                 dog:action.payload
 
             } 
+        
+        case CLEAN_DETAIL:
+            return{
+                ...state,
+                dog:[]
+            }    
             
         case GET_RENDER_DOGS:
             const{valor1,valor2}=action.payload;

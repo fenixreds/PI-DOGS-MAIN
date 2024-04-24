@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDetail } from "../../redux/actions";
+import { cleanDetail, getDetail } from "../../redux/actions";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 function Detail() {
@@ -12,7 +12,10 @@ function Detail() {
   const {id}=useParams();
 
   useEffect(()=>{
-    dispatch(getDetail(id))
+    dispatch(getDetail(id));
+    return ()=>{
+      dispatch(cleanDetail())
+    };
   },[dispatch,id])
 
   
