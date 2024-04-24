@@ -30,7 +30,7 @@ function rootReducer(state=initialState,action){
             const lastIndex=valor1 * valor2;
             const firstIndex=lastIndex-valor2;
             const records=state.allDogs.slice(firstIndex,lastIndex);
-            console.log(state.allDogs);
+            
             return{
                 ...state,
                 renderDogs:records

@@ -13,7 +13,7 @@ function Detail() {
 
   useEffect(()=>{
     dispatch(getDetail(id))
-  },[id])
+  },[dispatch,id])
 
   
   return (

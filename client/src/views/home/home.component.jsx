@@ -34,7 +34,8 @@ function Home() {
 
   function handleSubmit(e){
     e.preventDefault();
-    dispatch(getByName(searchString))
+    dispatch(getByName(searchString));
+    setCurrentPage(1);//cuando haga nueva busqueda el paginado regrese a la primera
   }
   
   //Funciones Pagination
@@ -60,14 +61,12 @@ function Home() {
 
 
   useEffect(()=>{
-    dispatch(getDogs())
-    console.log("get dogs ok");//esto se ejecuta cuando inicia esta pagina home
-  },[]);
+    dispatch(getDogs())//esto se ejecuta cuando inicia esta pagina home
+  },[dispatch]);
 
   useEffect(()=>{
-    dispatch(getRenderDogs(currentPage,recordsPerPage))
-    console.log(renderDogs);
-  },[currentPage]);
+    dispatch(getRenderDogs(currentPage,recordsPerPage))//se ejecuta despues que se completa el anterior useEffect
+  },[dispatch,currentPage,allDogs]);
 
 
   return (
