@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getByName, getDogs, getRenderDogs} from '../../redux/actions';
+import {filterTemperaments, getByName, getDogs, getRenderDogs, getTemperaments} from '../../redux/actions';
 
 import './home.styles.css';
 
@@ -61,7 +61,8 @@ function Home() {
 
   //Funciones Filtrado
   function handleFilter(e){
-    
+    console.log(e.target.value);
+    dispatch(filterTemperaments(e.target.value));
   }
 
 
@@ -70,7 +71,8 @@ function Home() {
   },[dispatch]);
 
   useEffect(()=>{
-    dispatch(getRenderDogs(currentPage,recordsPerPage))//se ejecuta despues que se completa el anterior useEffect
+    dispatch(getRenderDogs(currentPage,recordsPerPage));//se ejecuta despues que se completa el anterior useEffect
+    dispatch(getTemperaments());
   },[dispatch,currentPage,allDogs]);
 
 

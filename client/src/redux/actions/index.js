@@ -5,6 +5,8 @@ export const GET_BY_NAME="GET_BY_NAME"
 export const GET_DETAIL="GET_DETAIL"
 export const CLEAN_DETAIL="CLEAN_DETAIL"
 export const GET_RENDER_DOGS="GET_RENDER_DOGS"
+export const GET_TEMPERAMENTS="GET_TEMPERAMENTS"
+export const FILTER_TEMPERAMENTS="FILTER_TEMPERAMENTS"
 
 export function getDogs(){
     return async function(dispatch){
@@ -53,5 +55,22 @@ export function getRenderDogs(currentpage,recordsPerPage){
             valor1: currentpage,
             valor2: recordsPerPage
         },
+    }
+}
+
+export function getTemperaments(){
+    return async function(dispatch){
+        const response=await axios("http://localhost:3001/temperaments");
+        return dispatch({
+            type:"GET_TEMPERAMENTS",
+            payload:response.data
+        })
+    }   
+}
+
+export function filterTemperaments(temperament){
+    return{
+        type:"FILTER_TEMPERAMENTS",
+        payload:temperament
     }
 }
