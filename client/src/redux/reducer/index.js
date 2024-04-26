@@ -1,4 +1,4 @@
-import {GET_BY_NAME, GET_DOGS, GET_DETAIL, GET_RENDER_DOGS, CLEAN_DETAIL, GET_TEMPERAMENTS, FILTER_TEMPERAMENTS, FILTER_ORIGIN} from "../actions";
+import {GET_BY_NAME, GET_DOGS, GET_DETAIL, GET_RENDER_DOGS, CLEAN_DETAIL, GET_TEMPERAMENTS, FILTER_TEMPERAMENTS, FILTER_ORIGIN, FILTER_ORIGIN_TEMPERAMENT} from "../actions";
 
 let initialState={allDogs:[],dogsCopy:[],dog:[],renderDogs:[],temperaments:[]};
 
@@ -64,8 +64,7 @@ function rootReducer(state=initialState,action){
             }    
             
         case FILTER_ORIGIN:
-            console.log(state.dogsCopy[1].created);
-            console.log(action.payload);
+            
             return{
                 ...state,
                 allDogs:state.dogsCopy.filter(function(dog){
@@ -77,6 +76,41 @@ function rootReducer(state=initialState,action){
             }) 
 
             }
+
+        case FILTER_ORIGIN_TEMPERAMENT:
+
+            function fTemperament(dog){
+                if(action.temperament==="all"){
+                    return true;
+                }
+                if(dog.temperament){
+                    let tempsArray=dog.temperament.split(",");
+                    return tempsArray.includes(action.temperament);
+                    
+                }else{
+                    return false;
+                }
+            }
+
+            function fOrigin(dog){
+                if(action.created==="all"){
+                    return true;
+                }
+                if(String(dog.created)===action.created){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+
+
+            return{
+                ...state,
+                allDogs:state.dogsCopy.filter(dog=>{
+                    return fTemperament(dog) && fOrigin(dog)
+                    
+                })
+            }    
              
         default:
             return state    

@@ -8,6 +8,7 @@ export const GET_RENDER_DOGS="GET_RENDER_DOGS"
 export const GET_TEMPERAMENTS="GET_TEMPERAMENTS"
 export const FILTER_TEMPERAMENTS="FILTER_TEMPERAMENTS"
 export const FILTER_ORIGIN="FILTER_ORIGIN"
+export const FILTER_ORIGIN_TEMPERAMENT="FILTER_ORIGIN_TEMPERAMENT"
 
 export function getDogs(){
     return async function(dispatch){
@@ -80,5 +81,13 @@ export function filterOrigin(created){
     return{
         type:"FILTER_ORIGIN",
         payload:created
+    }
+}
+
+export function filterOriginTemperament(created,temperament){
+    return{
+        type:"FILTER_ORIGIN_TEMPERAMENT",
+        created,
+        temperament
     }
 }

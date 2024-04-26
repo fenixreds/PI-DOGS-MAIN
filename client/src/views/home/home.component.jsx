@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {filterOrigin, filterTemperaments, getByName, getDogs, getRenderDogs, getTemperaments} from '../../redux/actions';
+import {filterOriginTemperament, getByName, getDogs, getRenderDogs, getTemperaments} from '../../redux/actions';
 
 import './home.styles.css';
 
@@ -26,6 +26,10 @@ function Home() {
 
   //se crea un estado local para manejar el boton buscar
   const [searchString,setSearchString]=useState("");
+
+  //se crea un estado local para manejar los filtrados
+  const [fTemperament,setFTemperament]=useState("all");
+  const [fOrigin,setFOrigin]=useState("all");
 
   //Funciones Navbar
   function handleChange(e){
@@ -61,28 +65,32 @@ function Home() {
 
   //Funciones Filtrado
   function handleTemperament(e){
-    //console.log(e.target.value);
+    e.preventDefault();
+    setFTemperament(e.target.value);
     setCurrentPage(1);
-    dispatch(filterTemperaments(e.target.value));
   }
 
   function handleOrigin(e){
-    //console.log(e.target.value);
+    e.preventDefault();
+    setFOrigin(e.target.value);
     setCurrentPage(1);
-    dispatch(filterOrigin(e.target.value));
   }
+
 
 
   //Para manejar el ciclo de vida del componente
   useEffect(()=>{
-    dispatch(getDogs())//esto se ejecuta cuando inicia esta pagina home
+    dispatch(getDogs());//esto se ejecuta cuando inicia esta pagina home
+    dispatch(getTemperaments());
   },[dispatch]);
 
   useEffect(()=>{
-    dispatch(getRenderDogs(currentPage,recordsPerPage));//se ejecuta despues que se completa el anterior useEffect
-    dispatch(getTemperaments());
+    dispatch(getRenderDogs(currentPage,recordsPerPage));//se ejecuta despues que se completa el anterior useEffect   
   },[dispatch,currentPage,allDogs]);
 
+  useEffect(()=>{
+    dispatch(filterOriginTemperament(fOrigin,fTemperament))
+  },[dispatch,fTemperament,fOrigin])
 
   return (
     <div className='home' >
