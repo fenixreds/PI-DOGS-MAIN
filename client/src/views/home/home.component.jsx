@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {filterOriginTemperament, getByName, getDogs, getRenderDogs, getTemperaments} from '../../redux/actions';
+import {filterOriginTemperament, getByName, getDogs, getRenderDogs, getTemperaments, sortName, sortWeight} from '../../redux/actions';
 
 import './home.styles.css';
 
@@ -8,6 +8,7 @@ import Cards from "../../components/cards/cards.component";
 import Navbar from "../../components/navbar/navbar.component";
 import Pagination from '../../components/pagination/pagination.component';
 import Filter from '../../components/filter/filter.component';
+import Sorter from '../../components/sorter/sorter.component';
 
 function Home() {
 
@@ -30,6 +31,10 @@ function Home() {
   //se crea un estado local para manejar los filtrados
   const [fTemperament,setFTemperament]=useState("all");
   const [fOrigin,setFOrigin]=useState("all");
+
+  //estado local para el ordenamiento
+  const [orderName,setOrderName]=useState("Ninguno");
+  const [orderWeight,setOrderWeight]=useState("Ninguno");
 
   //Funciones Navbar
   function handleChange(e){
@@ -76,6 +81,20 @@ function Home() {
     setCurrentPage(1);
   }
 
+  //Funciones Ordenamiento
+  function handleName(e){
+    console.log("Name",e.target.value);
+    setOrderName(e.target.value);
+    setCurrentPage(1);
+  }
+
+  function handleWeight(e){
+    console.log("Weight",e.target.value);
+    setOrderWeight(e.target.value);
+    setCurrentPage(1);
+  }
+
+
 
 
   //Para manejar el ciclo de vida del componente
@@ -90,13 +109,22 @@ function Home() {
 
   useEffect(()=>{
     dispatch(filterOriginTemperament(fOrigin,fTemperament))
-  },[dispatch,fTemperament,fOrigin])
+  },[dispatch,fTemperament,fOrigin]);
+
+  useEffect(()=>{
+    dispatch(sortName(orderName))
+  },[dispatch,orderName]);
+
+  useEffect(()=>{
+    dispatch(sortWeight(orderWeight))
+  },[dispatch,orderWeight]);
 
   return (
     <div className='home' >
       <h1 className='home-title'>Razas de perros</h1>
       <Navbar handleChange={handleChange} handleSubmit={handleSubmit}/>
       <Filter handleTemperament={handleTemperament} handleOrigin={handleOrigin}/>
+      <Sorter handleName={handleName} handleWeight={handleWeight}/>
       <Cards renderDogs={renderDogs}/>
       <Pagination prePage={prePage} changeCpage={changeCpage} nextPage={nextPage} recordsPerPage={recordsPerPage}/>
       

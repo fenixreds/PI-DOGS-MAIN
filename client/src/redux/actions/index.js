@@ -9,6 +9,8 @@ export const GET_TEMPERAMENTS="GET_TEMPERAMENTS"
 export const FILTER_TEMPERAMENTS="FILTER_TEMPERAMENTS"
 export const FILTER_ORIGIN="FILTER_ORIGIN"
 export const FILTER_ORIGIN_TEMPERAMENT="FILTER_ORIGIN_TEMPERAMENT"
+export const SORT_NAME="SORT_NAME"
+export const SORT_WEIGHT="SORT_WEIGHT"
 
 export function getDogs(){
     return async function(dispatch){
@@ -89,5 +91,19 @@ export function filterOriginTemperament(created,temperament){
         type:"FILTER_ORIGIN_TEMPERAMENT",
         created,
         temperament
+    }
+}
+
+export function sortName(order){
+    return{
+        type:"SORT_NAME",
+        payload:order
+    }
+}
+
+export function sortWeight(order){
+    return{
+        type:"SORT_WEIGHT",
+        payload:order
     }
 }
