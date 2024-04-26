@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {filterTemperaments, getByName, getDogs, getRenderDogs, getTemperaments} from '../../redux/actions';
+import {filterOrigin, filterTemperaments, getByName, getDogs, getRenderDogs, getTemperaments} from '../../redux/actions';
 
 import './home.styles.css';
 
@@ -60,12 +60,20 @@ function Home() {
   }
 
   //Funciones Filtrado
-  function handleFilter(e){
-    console.log(e.target.value);
+  function handleTemperament(e){
+    //console.log(e.target.value);
+    setCurrentPage(1);
     dispatch(filterTemperaments(e.target.value));
   }
 
+  function handleOrigin(e){
+    //console.log(e.target.value);
+    setCurrentPage(1);
+    dispatch(filterOrigin(e.target.value));
+  }
 
+
+  //Para manejar el ciclo de vida del componente
   useEffect(()=>{
     dispatch(getDogs())//esto se ejecuta cuando inicia esta pagina home
   },[dispatch]);
@@ -80,7 +88,7 @@ function Home() {
     <div className='home' >
       <h1 className='home-title'>Razas de perros</h1>
       <Navbar handleChange={handleChange} handleSubmit={handleSubmit}/>
-      <Filter handleFilter={handleFilter}/>
+      <Filter handleTemperament={handleTemperament} handleOrigin={handleOrigin}/>
       <Cards renderDogs={renderDogs}/>
       <Pagination prePage={prePage} changeCpage={changeCpage} nextPage={nextPage} recordsPerPage={recordsPerPage}/>
       

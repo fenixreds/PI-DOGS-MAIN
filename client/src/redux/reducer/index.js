@@ -1,4 +1,4 @@
-import {GET_BY_NAME, GET_DOGS, GET_DETAIL, GET_RENDER_DOGS, CLEAN_DETAIL, GET_TEMPERAMENTS, FILTER_TEMPERAMENTS} from "../actions";
+import {GET_BY_NAME, GET_DOGS, GET_DETAIL, GET_RENDER_DOGS, CLEAN_DETAIL, GET_TEMPERAMENTS, FILTER_TEMPERAMENTS, FILTER_ORIGIN} from "../actions";
 
 let initialState={allDogs:[],dogsCopy:[],dog:[],renderDogs:[],temperaments:[]};
 
@@ -49,13 +49,7 @@ function rootReducer(state=initialState,action){
             }
 
         case FILTER_TEMPERAMENTS:
-            // let test=state.dogsCopy[1].temperament.split(",");
-            // console.log(test[3]);
-            // console.log('Vocal');
-            // let test2=test.includes(' Vocal');
-            // console.log(test2);
-
-            
+                        
             return{
                 ...state,
                 allDogs:state.dogsCopy.filter(function(dog){
@@ -68,7 +62,22 @@ function rootReducer(state=initialState,action){
                     
                 })
             }    
-                
+            
+        case FILTER_ORIGIN:
+            console.log(state.dogsCopy[1].created);
+            console.log(action.payload);
+            return{
+                ...state,
+                allDogs:state.dogsCopy.filter(function(dog){
+                    if(String(dog.created)===action.payload){
+                        return dog;
+                    }else{
+                        return false;
+                    }
+            }) 
+
+            }
+             
         default:
             return state    
     }

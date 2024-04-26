@@ -12,7 +12,8 @@ const infoApiSelect=(array)=>{
             height:dog.height.metric,
             weight:dog.weight.metric,
             life_span:dog.life_span,
-            temperament:dog.temperament
+            temperament:dog.temperament,
+            created:false
 
         }
     })
@@ -29,7 +30,8 @@ const infoDBSelect=(array)=>{
             height:dog.height,
             weight:dog.weight,
             life_span:dog.life_span,
-            temperament:tempsSelect(dog)
+            temperament:tempsSelect(dog),
+            created:dog.created
 
         }
     })
