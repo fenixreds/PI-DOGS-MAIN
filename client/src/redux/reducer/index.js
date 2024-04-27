@@ -156,8 +156,17 @@ function rootReducer(state=initialState,action){
         case SORT_WEIGHT:
             let sortedWeight;
             function calcAverageWeight(weightString){
-                const [min,max]=weightString.split('-').map(Number);
-                return (min+max)/2;
+                if(weightString==="NaN"){
+                    return 0;
+                }
+                if(weightString.includes('-')){
+                    const [min,max]=weightString.split('-').map(Number);
+                    return (min+max)/2;
+                }else{
+                    return parseInt(weightString);
+                }
+                
+                
             }
             switch(action.payload){
                 case "Ninguno":
