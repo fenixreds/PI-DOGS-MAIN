@@ -122,11 +122,9 @@ function rootReducer(state=initialState,action){
             
             switch(action.payload){
                 case "Ninguno":
-                    console.log("case","ningu");
                     sortedName=state.filteredDogs;
                     break;
                 case "Ascendente":
-                    console.log("case","ascen");
                     sortedName=state.filteredDogs.sort((a,b)=>{
                         const nameA=String(a.name).toLowerCase();
                         const nameB=String(b.name).toLowerCase();
@@ -137,21 +135,19 @@ function rootReducer(state=initialState,action){
                     });
                     break;
                 case "Descendente":
-                    console.log("case","desc");
                     sortedName=state.filteredDogs.sort((a,b)=>{
                         const nameA=String(a.name).toLowerCase();
                         const nameB=String(b.name).toLowerCase();
-                        console.log(nameA,nameB);
 
-                        if(nameA<nameB){console.log(1); return 1}
-                        if(nameA>nameB){console.log(-1); return -1}
+                        if(nameA<nameB){return 1}
+                        if(nameA>nameB){return -1}
                         return 0;
                     });
                     break;
                 default:
                     sortedName=state.filteredDogs;        
             }
-            console.log(sortedName);
+            
             return{
                 ...state,
                 allDogs:sortedName,
@@ -159,15 +155,32 @@ function rootReducer(state=initialState,action){
 
         case SORT_WEIGHT:
             let sortedWeight;
+            function calcAverageWeight(weightString){
+                const [min,max]=weightString.split('-').map(Number);
+                return (min+max)/2;
+            }
             switch(action.payload){
                 case "Ninguno":
                     sortedWeight=state.filteredDogs;
                     break;
                 case "Ascendente":
-                    sortedWeight=state.filteredDogs.sort((a,b)=>a.weight>b.weight ? 1:-1);
+                    sortedWeight=state.filteredDogs.sort((a,b)=>{
+                        const averageWeightA=calcAverageWeight(a.weight);
+                        const averageWeightB=calcAverageWeight(b.weight);
+                        if(averageWeightA>averageWeightB){return 1}
+                        if(averageWeightB>averageWeightA){return -1}
+                        return 0;
+                    });
                     break;
                 case "Descendente":
-                    sortedWeight=state.filteredDogs.sort((a,b)=>a.weight<b.weight ? 1:-1);
+                    sortedWeight=state.filteredDogs.sort((a,b)=>{
+                        const averageWeightA=calcAverageWeight(a.weight);
+                        const averageWeightB=calcAverageWeight(b.weight);
+                        if(averageWeightA<averageWeightB){return 1}
+                        if(averageWeightB<averageWeightA){return -1}
+                        return 0;
+
+                    });
                     break;
                 default:
                     sortedWeight=state.filteredDogs;        

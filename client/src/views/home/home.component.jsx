@@ -36,6 +36,10 @@ function Home() {
   const [orderName,setOrderName]=useState("Ninguno");
   const [orderWeight,setOrderWeight]=useState("Ninguno");
 
+  //estado local para renderizar despues de ordenar
+  const [sortFinish,setSortFinish]=useState("");
+  
+
   //Funciones Navbar
   function handleChange(e){
     e.preventDefault();//para que la pagina no se recargue despues de la busqueda
@@ -83,15 +87,13 @@ function Home() {
 
   //Funciones Ordenamiento
   function handleName(e){
-    console.log("Name",e.target.value);
+    e.preventDefault();
     setOrderName(e.target.value);
-    setCurrentPage(1);
   }
 
   function handleWeight(e){
-    console.log("Weight",e.target.value);
+    e.preventDefault();
     setOrderWeight(e.target.value);
-    setCurrentPage(1);
   }
 
 
@@ -104,19 +106,24 @@ function Home() {
   },[dispatch]);
 
   useEffect(()=>{
+    console.log("entre al renderDogs");
     dispatch(getRenderDogs(currentPage,recordsPerPage));//se ejecuta despues que se completa el anterior useEffect   
-  },[dispatch,currentPage,allDogs]);
+  },[dispatch,currentPage,allDogs,sortFinish]);
 
   useEffect(()=>{
     dispatch(filterOriginTemperament(fOrigin,fTemperament))
   },[dispatch,fTemperament,fOrigin]);
 
   useEffect(()=>{
-    dispatch(sortName(orderName))
+    dispatch(sortName(orderName));
+    setCurrentPage(1);
+    setSortFinish(orderName);
   },[dispatch,orderName]);
 
   useEffect(()=>{
-    dispatch(sortWeight(orderWeight))
+    dispatch(sortWeight(orderWeight));
+    setCurrentPage(1);
+    setSortFinish(orderWeight);
   },[dispatch,orderWeight]);
 
   return (
