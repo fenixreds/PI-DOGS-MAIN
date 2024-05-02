@@ -1,6 +1,8 @@
-import {GET_BY_NAME, GET_DOGS, GET_DETAIL, GET_RENDER_DOGS, CLEAN_DETAIL, GET_TEMPERAMENTS, FILTER_TEMPERAMENTS, FILTER_ORIGIN, FILTER_ORIGIN_TEMPERAMENT, SORT_NAME, SORT_WEIGHT} from "../actions";
+import {GET_BY_NAME, GET_DOGS, GET_DETAIL, GET_RENDER_DOGS, CLEAN_DETAIL, GET_TEMPERAMENTS, FILTER_TEMPERAMENTS,
+     FILTER_ORIGIN, FILTER_ORIGIN_TEMPERAMENT, SORT_NAME, SORT_WEIGHT, CREATE_DOG, CLEAN_CREATE_DOG,HANDLE_ERROR,
+     CLEAN_ERROR} from "../actions";
 
-let initialState={allDogs:[],dogsCopy:[],dog:[],renderDogs:[],temperaments:[],filteredDogs:[]};
+let initialState={allDogs:[],dogsCopy:[],dog:[],renderDogs:[],temperaments:[],filteredDogs:[],createdNewDog:[],error:[]};
 
 function rootReducer(state=initialState,action){
     switch(action.type){
@@ -199,7 +201,30 @@ function rootReducer(state=initialState,action){
                 ...state,
                 allDogs:sortedWeight
             }   
+        
+        case CREATE_DOG:
+            return{
+                ...state,
+                createdNewDog:action.payload
+            }  
             
+        case CLEAN_CREATE_DOG:
+            return{
+                ...state,
+                createdNewDog:[]
+            } 
+            
+        case HANDLE_ERROR:
+            return{
+                ...state,
+                error:action.payload
+            } 
+        
+        case CLEAN_ERROR:
+            return{
+                ...state,
+                error:[]
+            }
             
         default:
             return state    

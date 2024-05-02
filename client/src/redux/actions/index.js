@@ -11,6 +11,10 @@ export const FILTER_ORIGIN="FILTER_ORIGIN"
 export const FILTER_ORIGIN_TEMPERAMENT="FILTER_ORIGIN_TEMPERAMENT"
 export const SORT_NAME="SORT_NAME"
 export const SORT_WEIGHT="SORT_WEIGHT"
+export const CREATE_DOG="CREATE_DOG"
+export const CLEAN_CREATE_DOG="CLEAN_CREATE_DOG"
+export const HANDLE_ERROR="HANDLE_ERROR"
+export const CLEAN_ERROR="CLEAN_ERROR"
 
 export function getDogs(){
     return async function(dispatch){
@@ -105,5 +109,40 @@ export function sortWeight(order){
     return{
         type:"SORT_WEIGHT",
         payload:order
+    }
+}
+
+export function createDog(newDog){
+    return async function(dispatch){
+        try {
+            const URL="http://localhost:3001/dogs"
+            let response=await axios.post(URL,newDog);
+            return dispatch({
+                type:"CREATE_DOG",
+                payload:response
+            })
+            
+        } catch (error) {
+            console.log(error);
+            return dispatch({
+                type:"HANDLE_ERROR",
+                payload:error
+            })
+        }
+        
+    }   
+}
+
+export function cleanCreateDog(){
+    return {
+        type:"CLEAN_CREATE_DOG",
+        payload:{}
+    }
+}
+
+export function cleanError(){
+    return {
+        type:"CLEAN_ERROR",
+        payload:{}
     }
 }
