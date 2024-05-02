@@ -3,6 +3,7 @@ import {useHistory} from 'react-router-dom';
 import Form from "../../components/form/form.component";
 import { useDispatch, useSelector } from "react-redux";
 import { cleanCreateDog, cleanError, createDog } from "../../redux/actions";
+import validate from "../../components/validations/validation";
 
 
 function Create() {
@@ -23,15 +24,35 @@ function Create() {
     life_span:"",
     temperament:"",
 
+  });
+
+  const [errorsForm,setErrorsForm]=useState({
+    name:"",
+    image:"",
+    minHeight:"",
+    maxHeight:"",
+    minWeight:"",
+    maxWeight:"",
+    life_span:"",
+    temperament:"",
   })
 
+  
   function handleChange(e){
     e.preventDefault();
-    console.log(e.target.value);
+    
     setDog({
       ...newDog,
       [e.target.name]:e.target.value,
-    })
+    });
+
+    setErrorsForm(
+      validate({
+        ...newDog,
+        [e.target.name]:e.target.value,
+      })
+    );
+    //console.log(newDog);
   }
 
   function handleSubmit(e){
@@ -49,6 +70,8 @@ function Create() {
 
     
   }
+
+
   useEffect(()=>{
     return ()=>{
       dispatch(cleanCreateDog());
@@ -62,17 +85,15 @@ function Create() {
       history.push('/home')
     }else if(error.response){
       console.log(error.response);
-      window.alert("La raza ya existe o faltan datos");
-      
-    }
-    
+      window.alert("La raza ya existe o faltan datos");  
+    }  
   },[dispatch,createdNewDog,error,history]);
   
 
   return(
     <div>
       <h1>Ingrese informacion de la nueva raza</h1>
-      <Form handleChange={handleChange} handleSubmit={handleSubmit} dog={newDog}/>
+      <Form handleChange={handleChange} handleSubmit={handleSubmit} dog={newDog} errorsForm={errorsForm}/>
     </div>
   )
 
