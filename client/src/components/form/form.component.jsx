@@ -1,6 +1,11 @@
+import { useSelector } from 'react-redux';
 import './form.styles.css';
 
-function Form({handleChange,handleSubmit,dog,errorsForm}){
+
+function Form({handleChange,handleTemperament,handleSubmit,dog,errorsForm}){
+
+  const temperaments=useSelector((state)=>state.temperaments);
+
     return(
     <div >
       <form>
@@ -48,8 +53,14 @@ function Form({handleChange,handleSubmit,dog,errorsForm}){
         </div>
         <div>
           <label>Temperamentos</label>
-          <input type="text" name="temperament"
-          value={dog.temperament} onChange={handleChange}/>
+          <select 
+                placeholder="Temperamento" onChange={handleTemperament}>
+                    
+                    {temperaments.map((temp)=>(
+                        <option key={temp.id} title="temperament" value={temp.id}>{temp.name}</option>
+                    ))}   
+          </select>
+          
           {errorsForm.temperament?<span>{errorsForm.temperament}</span>:null}
         </div>
         <div>

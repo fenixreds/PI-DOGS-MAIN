@@ -22,7 +22,7 @@ const getAllTemperaments=async()=>{
         const temperaments=[];
         infoApi.forEach(dog => {
             if(dog.temperament){
-                const dogTemperaments=dog.temperament.split(",");
+                const dogTemperaments=dog.temperament.split(",").map(temp=>temp.trim());
                 temperaments.push(...dogTemperaments);
             }
             

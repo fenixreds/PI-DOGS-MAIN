@@ -123,7 +123,6 @@ export function createDog(newDog){
             })
             
         } catch (error) {
-            console.log(error);
             return dispatch({
                 type:"HANDLE_ERROR",
                 payload:error

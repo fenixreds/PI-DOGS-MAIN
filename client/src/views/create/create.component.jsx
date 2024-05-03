@@ -2,7 +2,7 @@ import { useState,useEffect } from "react";
 import {useHistory} from 'react-router-dom';
 import Form from "../../components/form/form.component";
 import { useDispatch, useSelector } from "react-redux";
-import { cleanCreateDog, cleanError, createDog } from "../../redux/actions";
+import { cleanCreateDog, cleanError, createDog, getTemperaments } from "../../redux/actions";
 import validate from "../../components/validations/validation";
 
 
@@ -52,7 +52,12 @@ function Create() {
         [e.target.name]:e.target.value,
       })
     );
-    //console.log(newDog);
+  
+  }
+
+  function handleTemperament(e){
+    e.preventDefault();
+    console.log(e.target.value);
   }
 
   function handleSubmit(e){
@@ -73,9 +78,11 @@ function Create() {
 
 
   useEffect(()=>{
+    dispatch(getTemperaments());
     return ()=>{
       dispatch(cleanCreateDog());
       dispatch(cleanError());
+      
     };
   },[dispatch])
 
@@ -84,7 +91,6 @@ function Create() {
       window.alert("La nueva raza fue creada exitosamente");
       history.push('/home')
     }else if(error.response){
-      console.log(error.response);
       window.alert("La raza ya existe o faltan datos");  
     }  
   },[dispatch,createdNewDog,error,history]);
@@ -93,7 +99,7 @@ function Create() {
   return(
     <div>
       <h1>Ingrese informacion de la nueva raza</h1>
-      <Form handleChange={handleChange} handleSubmit={handleSubmit} dog={newDog} errorsForm={errorsForm}/>
+      <Form handleChange={handleChange} handleTemperament={handleTemperament} handleSubmit={handleSubmit} dog={newDog} errorsForm={errorsForm}/>
     </div>
   )
 
