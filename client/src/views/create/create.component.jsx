@@ -22,7 +22,7 @@ function Create() {
     minWeight:"",
     maxWeight:"",
     life_span:"",
-    temperament:"",
+    temperament:[],
 
   });
 
@@ -58,22 +58,46 @@ function Create() {
   function handleTemperament(e){
     e.preventDefault();
     console.log(e.target.value);
+
+
+    setDog({
+      ...newDog,
+      temperament:[...newDog.temperament,e.target.value]
+    })
+
+    setErrorsForm(
+      validate({
+        ...newDog,
+        temperament:e.target.value
+      })
+    )
+  }
+
+  function completedForm(){
+    return Object.values(newDog).every(valor=>valor!=="")&&
+    Object.values(errorsForm).every(valor=>valor==="");
   }
 
   function handleSubmit(e){
     e.preventDefault();
-    const newSelectDog={
-      reference_image_id:newDog.image,
-      name:newDog.name,
-      height:newDog.minHeight+" - "+newDog.maxHeight,
-      weight:newDog.minWeight+" - "+newDog.maxWeight,
-      life_span:newDog.life_span+" years",
-      temperamentId:newDog.temperament
-    }
-    console.log(newSelectDog);
-    dispatch(createDog(newSelectDog));
 
-    
+    if(completedForm()){
+      console.log("completado");
+      const newSelectDog={
+        reference_image_id:newDog.image,
+        name:newDog.name,
+        height:newDog.minHeight+" - "+newDog.maxHeight,
+        weight:newDog.minWeight+" - "+newDog.maxWeight,
+        life_span:newDog.life_span+" years",
+        temperamentId:newDog.temperament.join()
+      }
+      console.log(newSelectDog);
+      dispatch(createDog(newSelectDog));
+    }else{
+      console.log("faltan datos");
+      console.log(newDog);
+    }
+      
   }
 
 

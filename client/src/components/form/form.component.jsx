@@ -63,6 +63,14 @@ function Form({handleChange,handleTemperament,handleSubmit,dog,errorsForm}){
           
           {errorsForm.temperament?<span>{errorsForm.temperament}</span>:null}
         </div>
+        <div>  
+          {
+            (dog.temperament.length>0)
+            ?(dog.temperament.map((tempSelect)=>(
+              <label key={tempSelect}>{temperaments[tempSelect-1].name} - </label>
+            ))):null
+          }
+        </div>
         <div>
           <button type='submit' onClick={handleSubmit}>Crear</button>
         </div>
