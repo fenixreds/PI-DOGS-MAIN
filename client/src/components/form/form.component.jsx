@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import './form.styles.css';
 
 
-function Form({handleChange,handleTemperament,handleSubmit,dog,errorsForm}){
+function Form({handleChange,handleTemperament,handleSubmit,handleTempReset,dog,errorsForm}){
 
   const temperaments=useSelector((state)=>state.temperaments);
 
@@ -64,6 +64,7 @@ function Form({handleChange,handleTemperament,handleSubmit,dog,errorsForm}){
           {errorsForm.temperament?<span>{errorsForm.temperament}</span>:null}
         </div>
         <div>  
+          <button onClick={handleTempReset}>Borrar Temperamentos</button>
           {
             (dog.temperament.length>0)
             ?(dog.temperament.map((tempSelect)=>(

@@ -1,5 +1,5 @@
-import {GET_BY_NAME, GET_DOGS, GET_DETAIL, GET_RENDER_DOGS, CLEAN_DETAIL, GET_TEMPERAMENTS, FILTER_TEMPERAMENTS,
-     FILTER_ORIGIN, FILTER_ORIGIN_TEMPERAMENT, SORT_NAME, SORT_WEIGHT, CREATE_DOG, CLEAN_CREATE_DOG,HANDLE_ERROR,
+import {GET_BY_NAME, GET_DOGS, GET_DETAIL, GET_RENDER_DOGS, CLEAN_DETAIL, GET_TEMPERAMENTS, 
+     FILTER_ORIGIN_TEMPERAMENT, SORT_NAME, SORT_WEIGHT, CREATE_DOG, CLEAN_CREATE_DOG,HANDLE_ERROR,
      CLEAN_ERROR} from "../actions";
 
 let initialState={allDogs:[],dogsCopy:[],dog:[],renderDogs:[],temperaments:[],filteredDogs:[],createdNewDog:[],error:[]};
@@ -51,34 +51,7 @@ function rootReducer(state=initialState,action){
                 temperaments:action.payload
             }
 
-        case FILTER_TEMPERAMENTS:
-                        
-            return{
-                ...state,
-                allDogs:state.dogsCopy.filter(function(dog){
-                    if(dog.temperament){
-                        let tempsArray=dog.temperament.split(",");
-                        return tempsArray.includes(action.payload);
-                    }else{
-                        return false;
-                    }
-                    
-                })
-            }    
-            
-        case FILTER_ORIGIN:
-            
-            return{
-                ...state,
-                allDogs:state.dogsCopy.filter(function(dog){
-                    if(String(dog.created)===action.payload){
-                        return dog;
-                    }else{
-                        return false;
-                    }
-            }) 
-
-            }
+        
 
         case FILTER_ORIGIN_TEMPERAMENT:
 
@@ -87,7 +60,7 @@ function rootReducer(state=initialState,action){
                     return true;
                 }
                 if(dog.temperament){
-                    let tempsArray=dog.temperament.split(",");
+                    let tempsArray=dog.temperament.split(",").map(temp=>temp.trim());
                     return tempsArray.includes(action.temperament);
                     
                 }else{

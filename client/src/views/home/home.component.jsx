@@ -33,8 +33,9 @@ function Home() {
   const [fOrigin,setFOrigin]=useState("all");
 
   //estado local para el ordenamiento
-  const [orderName,setOrderName]=useState("Ninguno");
-  const [orderWeight,setOrderWeight]=useState("Ninguno");
+  const [orderBy,setOrderBy]=useState("Ninguno");
+  const [changeOrder,setChangeOrder]=useState("Ninguno");
+  
 
   //estado local para renderizar despues de ordenar
   const [sortFinish,setSortFinish]=useState("");
@@ -86,14 +87,15 @@ function Home() {
   }
 
   //Funciones Ordenamiento
-  function handleName(e){
+  function handleOrderBy(e){
     e.preventDefault();
-    setOrderName(e.target.value);
+    setOrderBy(e.target.value);
+    
   }
 
-  function handleWeight(e){
+  function handleChangeOrder(e){
     e.preventDefault();
-    setOrderWeight(e.target.value);
+    setChangeOrder(e.target.value);
   }
 
 
@@ -110,28 +112,32 @@ function Home() {
     dispatch(getRenderDogs(currentPage,recordsPerPage));//se ejecuta despues que se completa el anterior useEffect   
   },[dispatch,currentPage,allDogs,sortFinish]);
 
-  useEffect(()=>{
-    dispatch(filterOriginTemperament(fOrigin,fTemperament))
-  },[dispatch,fTemperament,fOrigin]);
+  
 
   useEffect(()=>{
-    dispatch(sortName(orderName));
-    setCurrentPage(1);
-    setSortFinish(orderName);
-  },[dispatch,orderName]);
+    dispatch(filterOriginTemperament(fOrigin,fTemperament));
 
-  useEffect(()=>{
-    dispatch(sortWeight(orderWeight));
-    setCurrentPage(1);
-    setSortFinish(orderWeight);
-  },[dispatch,orderWeight]);
+    if(orderBy==="Name"){
+      dispatch(sortName(changeOrder));
+      setCurrentPage(1);
+      setSortFinish(orderBy+changeOrder);
+      
+    }else if(orderBy==="Weight"){
+      dispatch(sortWeight(changeOrder));
+      setCurrentPage(1);
+      setSortFinish(orderBy+changeOrder);
+    }
+
+  },[dispatch,fTemperament,fOrigin,orderBy,changeOrder]);
+
+ 
 
   return (
     <div className='home' >
       <h1 className='home-title'>Razas de perros</h1>
       <Navbar handleChange={handleChange} handleSubmit={handleSubmit}/>
       <Filter handleTemperament={handleTemperament} handleOrigin={handleOrigin}/>
-      <Sorter handleName={handleName} handleWeight={handleWeight}/>
+      <Sorter handleOrderBy={handleOrderBy} handleChangeOrder={handleChangeOrder}/>
       <Cards renderDogs={renderDogs}/>
       <Pagination prePage={prePage} changeCpage={changeCpage} nextPage={nextPage} recordsPerPage={recordsPerPage}/>
       

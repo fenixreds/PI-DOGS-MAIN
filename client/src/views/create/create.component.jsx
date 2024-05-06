@@ -57,7 +57,7 @@ function Create() {
 
   function handleTemperament(e){
     e.preventDefault();
-    console.log(e.target.value);
+    
 
 
     setDog({
@@ -82,7 +82,7 @@ function Create() {
     e.preventDefault();
 
     if(completedForm()){
-      console.log("completado");
+      
       const newSelectDog={
         reference_image_id:newDog.image,
         name:newDog.name,
@@ -91,15 +91,31 @@ function Create() {
         life_span:newDog.life_span+" years",
         temperamentId:newDog.temperament.join()
       }
-      console.log(newSelectDog);
+      
       dispatch(createDog(newSelectDog));
     }else{
-      console.log("faltan datos");
-      console.log(newDog);
+      
+      window.alert("La raza ya existe o faltan datos");
+      
     }
       
   }
 
+  function handleTempReset(e){
+    e.preventDefault();
+
+    setDog({
+      ...newDog,
+      temperament:[]
+    })
+
+    setErrorsForm(
+      validate({
+        ...newDog,
+        temperament:""
+      })
+    )
+  }
 
   useEffect(()=>{
     dispatch(getTemperaments());
@@ -123,7 +139,8 @@ function Create() {
   return(
     <div>
       <h1>Ingrese informacion de la nueva raza</h1>
-      <Form handleChange={handleChange} handleTemperament={handleTemperament} handleSubmit={handleSubmit} dog={newDog} errorsForm={errorsForm}/>
+      <Form handleChange={handleChange} handleTemperament={handleTemperament} handleTempReset={handleTempReset}
+      handleSubmit={handleSubmit} dog={newDog} errorsForm={errorsForm}/>
     </div>
   )
 
