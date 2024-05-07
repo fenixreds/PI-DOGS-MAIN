@@ -9,10 +9,12 @@ import Navbar from "../../components/navbar/navbar.component";
 import Pagination from '../../components/pagination/pagination.component';
 import Filter from '../../components/filter/filter.component';
 import Sorter from '../../components/sorter/sorter.component';
+import { useHistory } from 'react-router-dom';
 
 function Home() {
 
   const dispatch=useDispatch();
+  const history=useHistory();
   const allDogs=useSelector((state)=>state.allDogs);
   const renderDogs=useSelector((state)=>state.renderDogs);
 
@@ -98,6 +100,15 @@ function Home() {
     setChangeOrder(e.target.value);
   }
 
+  function handleCreate(e){
+    e.preventDefault();
+    history.push('/create')
+  }
+
+  function handleOut(e){
+    e.preventDefault();
+    history.push('/landing');
+  }
 
 
 
@@ -135,9 +146,11 @@ function Home() {
   return (
     <div className='home' >
       <h1 className='home-title'>Razas de perros</h1>
-      <Navbar handleChange={handleChange} handleSubmit={handleSubmit}/>
-      <Filter handleTemperament={handleTemperament} handleOrigin={handleOrigin}/>
-      <Sorter handleOrderBy={handleOrderBy} handleChangeOrder={handleChangeOrder}/>
+      <Navbar handleChange={handleChange} handleSubmit={handleSubmit} handleCreate={handleCreate} handleOut={handleOut}/>
+      <div className='filterSorter-box'>
+        <Filter handleTemperament={handleTemperament} handleOrigin={handleOrigin}/>
+        <Sorter handleOrderBy={handleOrderBy} handleChangeOrder={handleChangeOrder}/>
+      </div>
       <Cards renderDogs={renderDogs}/>
       <Pagination prePage={prePage} changeCpage={changeCpage} nextPage={nextPage} recordsPerPage={recordsPerPage}/>
       

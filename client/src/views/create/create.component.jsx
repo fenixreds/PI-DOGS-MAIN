@@ -117,6 +117,16 @@ function Create() {
     )
   }
 
+  function handleHome(e){
+    e.preventDefault();
+    history.push('/home');
+  };
+
+  function handleOut(e){
+    e.preventDefault();
+    history.push('/landing')
+  };
+
   useEffect(()=>{
     dispatch(getTemperaments());
     return ()=>{
@@ -141,6 +151,12 @@ function Create() {
       <h1>Ingrese informacion de la nueva raza</h1>
       <Form handleChange={handleChange} handleTemperament={handleTemperament} handleTempReset={handleTempReset}
       handleSubmit={handleSubmit} dog={newDog} errorsForm={errorsForm}/>
+      <div>
+        <button onClick={handleHome}>Home</button>
+      </div>
+      <div>
+        <button onClick={handleOut}>Salir</button>
+      </div>
     </div>
   )
 
