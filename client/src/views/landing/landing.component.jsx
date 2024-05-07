@@ -1,6 +1,6 @@
 import { useHistory } from "react-router-dom";
 
-//import './detail.styles.css';
+import './landing.styles.css';
 
 
 function Landing() {
@@ -16,8 +16,11 @@ function Landing() {
   return (
     <div >
       <h1>Bienvenido a la app de Razas de perros</h1>
-      <button onClick={handleStart}>Ingresar</button>
-      <img src={landingImage} alt=''/>
+      <div className="navbar">
+        <button className="boton" onClick={handleStart}>Ingresar</button>
+      </div>
+      
+      <img className="image-landing" src={landingImage} alt=''/>
       
     </div>
   );

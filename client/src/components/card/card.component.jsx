@@ -9,11 +9,11 @@ function Card({dog}){
         <div className='card-container'>
 
             
-            <Link to={`/detail/${id}`}>
+            <Link to={`/detail/${id}`} className="card-text">
             <img className='image-container' src={reference_image_id} alt=''/>
-            <p>{name}</p>
-            <p>{temperament}</p>
-            <p>{weight}</p>
+            <p>Nombre: {name}</p>
+            <p>Temperamentos: {temperament}</p>
+            <p>Peso: {weight} Kg.</p>
 
             </Link>
 

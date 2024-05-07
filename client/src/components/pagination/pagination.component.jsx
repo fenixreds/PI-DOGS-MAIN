@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-
+import './pagination.styles.css';
 
 
 function Pagination({prePage,changeCpage,nextPage,recordsPerPage}){
@@ -11,7 +11,7 @@ function Pagination({prePage,changeCpage,nextPage,recordsPerPage}){
     const numbers =[...Array(npage+1).keys()].slice(1);
 
     return(
-        <div>
+        <div className="pages-box">
             <li>
                 <button onClick={prePage}>Prev</button>
             </li>

@@ -119,7 +119,7 @@ function Home() {
   },[dispatch]);
 
   useEffect(()=>{
-    console.log("entre al renderDogs");
+    
     dispatch(getRenderDogs(currentPage,recordsPerPage));//se ejecuta despues que se completa el anterior useEffect   
   },[dispatch,currentPage,allDogs,sortFinish]);
 

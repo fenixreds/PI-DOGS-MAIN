@@ -150,13 +150,8 @@ function Create() {
     <div>
       <h1>Ingrese informacion de la nueva raza</h1>
       <Form handleChange={handleChange} handleTemperament={handleTemperament} handleTempReset={handleTempReset}
-      handleSubmit={handleSubmit} dog={newDog} errorsForm={errorsForm}/>
-      <div>
-        <button onClick={handleHome}>Home</button>
-      </div>
-      <div>
-        <button onClick={handleOut}>Salir</button>
-      </div>
+      handleSubmit={handleSubmit} dog={newDog} errorsForm={errorsForm} handleHome={handleHome} handleOut={handleOut}/>
+      
     </div>
   )
 
