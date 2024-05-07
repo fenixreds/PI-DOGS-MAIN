@@ -158,7 +158,7 @@ function Home() {
         <Sorter handleOrderBy={handleOrderBy} handleChangeOrder={handleChangeOrder}/>
       </div>
       <Cards renderDogs={renderDogs}/>
-      <Pagination prePage={prePage} changeCpage={changeCpage} nextPage={nextPage} recordsPerPage={recordsPerPage}/>
+      <Pagination prePage={prePage} changeCpage={changeCpage} nextPage={nextPage} recordsPerPage={recordsPerPage} currentPage={currentPage}/>
       
     </div>
   );

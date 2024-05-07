@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import './pagination.styles.css';
 
 
-function Pagination({prePage,changeCpage,nextPage,recordsPerPage}){
+function Pagination({prePage,changeCpage,nextPage,recordsPerPage,currentPage}){
 
     const allDogs=useSelector((state)=>state.allDogs);
 
@@ -16,8 +16,8 @@ function Pagination({prePage,changeCpage,nextPage,recordsPerPage}){
             </li>
             {
                 numbers.map((n,i)=>
-                    <li key={i}>
-                        <button onClick={changeCpage}>{n}</button>
+                    <li  key={i}>
+                        <button className={currentPage===n? "page-item-active":""} onClick={changeCpage}>{n}</button>
                     </li>
                 )
             }

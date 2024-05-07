@@ -58,19 +58,25 @@ function Create() {
   function handleTemperament(e){
     e.preventDefault();
     
-
-
-    setDog({
-      ...newDog,
-      temperament:[...newDog.temperament,e.target.value]
-    })
-
-    setErrorsForm(
-      validate({
+    if(newDog.temperament.includes(e.target.value)){
+      window.alert("Ya agrego este temperamento");
+    }
+    else{
+      setDog({
         ...newDog,
-        temperament:e.target.value
+        temperament:[...newDog.temperament,e.target.value]
       })
-    )
+  
+      setErrorsForm(
+        validate({
+          ...newDog,
+          temperament:e.target.value
+        })
+      )
+    }
+
+
+    
   }
 
   function completedForm(){
