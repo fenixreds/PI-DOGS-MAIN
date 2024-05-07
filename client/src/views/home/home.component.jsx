@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {filterOriginTemperament, getByName, getDogs, getRenderDogs, getTemperaments, sortName, sortWeight} from '../../redux/actions';
+import {cleanError, filterOriginTemperament, getByName, getDogs, getRenderDogs, getTemperaments, sortName, sortWeight} from '../../redux/actions';
 
 import './home.styles.css';
 
@@ -17,6 +17,7 @@ function Home() {
   const history=useHistory();
   const allDogs=useSelector((state)=>state.allDogs);
   const renderDogs=useSelector((state)=>state.renderDogs);
+  const error=useSelector((state)=>state.error);
 
   //se crean los parametros para el paginado
   const [currentPage,setCurrentPage]=useState(1);
@@ -119,7 +120,6 @@ function Home() {
   },[dispatch]);
 
   useEffect(()=>{
-    
     dispatch(getRenderDogs(currentPage,recordsPerPage));//se ejecuta despues que se completa el anterior useEffect   
   },[dispatch,currentPage,allDogs,sortFinish]);
 
@@ -141,6 +141,12 @@ function Home() {
 
   },[dispatch,fTemperament,fOrigin,orderBy,changeOrder]);
 
+  useEffect(()=>{
+    if(error.response){
+      window.alert("La raza buscada no existe");
+      dispatch(cleanError());
+    }
+  },[dispatch,error])
  
 
   return (

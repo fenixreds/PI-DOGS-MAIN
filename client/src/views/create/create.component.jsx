@@ -12,7 +12,7 @@ function Create() {
   const history=useHistory();
 
   const createdNewDog=useSelector((state)=>state.createdNewDog);
-  const error=useSelector((state)=>state.error)
+  const error=useSelector((state)=>state.error);
 
   const [newDog,setDog]=useState({
     name:"",
@@ -129,6 +129,7 @@ function Create() {
 
   useEffect(()=>{
     dispatch(getTemperaments());
+    
     return ()=>{
       dispatch(cleanCreateDog());
       dispatch(cleanError());

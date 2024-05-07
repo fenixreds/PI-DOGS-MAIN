@@ -30,11 +30,20 @@ export function getDogs(){
 
 export function getByName(name){
     return async function(dispatch){
-        const response=await axios(`http://localhost:3001/dogs/?name=${name}`);
-        return dispatch({
-            type:"GET_BY_NAME",
-            payload:response.data
-        })
+        try {
+            const response=await axios(`http://localhost:3001/dogs/?name=${name}`);
+            return dispatch({
+                type:"GET_BY_NAME",
+                payload:response.data
+            })
+            
+        } catch (error) {
+            return dispatch({
+                type:"HANDLE_ERROR",
+                payload:error
+            })
+        }
+        
     }
 }
 
