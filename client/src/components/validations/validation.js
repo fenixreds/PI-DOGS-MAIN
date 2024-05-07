@@ -19,16 +19,16 @@ const validate=(newDog)=>{
     if(!/^[1-9]\d*$/.test(newDog.life_span)){
         errorsForm.life_span="Años de vida invalido"
     }
-    if(!(newDog.minHeight<newDog.maxHeight)){
+    if(!(Number(newDog.minHeight)<Number(newDog.maxHeight))){
         errorsForm.minHeight="Altura minima debe ser menor que la mayor"
     }
-    if(!(newDog.maxHeight>newDog.minHeight)){
+    if(!(Number(newDog.maxHeight)>Number(newDog.minHeight))){
         errorsForm.maxHeight="Altura maxima debe ser mayor que la menor"
     }
-    if(!(newDog.minWeight<newDog.maxWeight)){
+    if(!(Number(newDog.minWeight)<Number(newDog.maxWeight))){
         errorsForm.minWeight="Peso minimo debe ser menor que el mayor"
     }
-    if(!(newDog.maxWeight>newDog.minWeight)){
+    if(!(Number(newDog.maxWeight)>Number(newDog.minWeight))){
         errorsForm.maxWeight="Peso maximo debe ser mayor que el menor"
     }
     if(!newDog.temperament){

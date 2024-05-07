@@ -6,7 +6,6 @@ function Pagination({prePage,changeCpage,nextPage,recordsPerPage}){
 
     const allDogs=useSelector((state)=>state.allDogs);
 
-    //const recordsPerPage=8;
     const npage =Math.ceil(allDogs.length/recordsPerPage);
     const numbers =[...Array(npage+1).keys()].slice(1);
 
